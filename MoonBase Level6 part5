@@ -1,0 +1,26 @@
+"""
+import urllib2
+import urllib
+url = 'https://127.0.0.1'
+
+data = {'data' : 'GET_KEY'}
+data = 'GET_KEY'
+#data = urllib.urlencode(data)
+req = urllib2.Request(url, data)
+response = urllib2.urlopen(req)
+the_page = response.read()
+"""
+def reverse(s): 
+  str = "" 
+  for i in s: 
+    str = i + str
+  return str
+import socket
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(('localhost', 10000))
+client.send('GET_KEY')
+x = client.recv(1024)
+x = reverse(x)
+client.send(x)
+print(client.recv(1024))
