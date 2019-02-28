@@ -1,0 +1,22 @@
+#
+# Find the valid png file in the /tmp directory. Using magic bytes.
+# The code is hidden in this file.
+#
+
+import imghdr
+import os
+os.chdir('/tmp')
+x = []
+y = []
+count = 0
+
+for thing in os.listdir('/tmp'):
+    name = str(thing)
+    x.append(name)
+    z = imghdr.what(name)
+    if z == 'png':
+        print(thing)
+        with open(thing, 'r') as file:
+            newfile = file.read()
+            print(newfile)
+    
