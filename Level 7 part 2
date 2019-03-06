@@ -1,0 +1,22 @@
+import urllib2
+import urllib
+import cookielib
+
+ids = []
+for i in range(75):
+    ids.append(i+1)
+url = 'http://127.0.0.1:8082/cookiestore'
+#print ids
+
+
+for thing in ids:
+    cookie_jar = cookielib.CookieJar()
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie_jar))
+    urllib2.install_opener(opener)
+    data = {'alien-id' : thing}
+    data = urllib.urlencode(data)
+    request = urllib2.Request(url, data)
+    urllib2.urlopen(request)
+
+    for cookie in cookie_jar:
+            print cookie
