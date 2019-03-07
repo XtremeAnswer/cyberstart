@@ -7,19 +7,41 @@
 # moments.
 #
 import socket
+key = 'attackthehumans'
 
 def debugMsg(msg):
   # Use this function if you need any debug messages
   with open("/tmp/userdebug.log", "a") as myfile:
     myfile.write(msg + "\n")
+    
+def tobits(s):
+    result = []
+    for c in s:
+        bits = bin(ord(c))[2:]
+        bits = '00000000'[len(bits):] + bits
+        result.extend([int(b) for b in bits])
+    return result
 
-def change_to_be_hex(str):
-    return int(str,base=16)
-def xor_two_str(str1,str2):
-    a = change_to_be_hex(str1)
-    b = change_to_be_hex(str2)
-    return hex(a ^ b)
+def frombits(bits):
+    chars = []
+    for b in range(len(bits) / 8):
+        byte = bits[b*8:(b+1)*8]
+        chars.append(chr(int(''.join([str(bit) for bit in byte]), 2)))
+    return ''.join(chars)
 
+def bitwise_xor(str1, key):
+    z = []
+    x = tobits(str1)
+    y = tobits(key)
+    lengthofstr = len(str1)
+    for thing, stuff in zip(x, y):
+        appendthing = thing ^ stuff
+        z.append(appendthing)
+    return(z)
+    
+
+#new_stuff = bitwise_xor('heyoeryoakdjyri', key)
+#print(new_stuff)
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(('localhost', 10000))
@@ -31,20 +53,8 @@ while True:
     data = connection.recv(1024)
     if len(data) > 0:
         print(data)
-    connection.send(xor_two_str('data', 'attackthehumans'))
+        new_data = bitwise_xor(data, 'attackthehumans')
+        connection.send(new_data)	
     if len(data) > 0:
         print(data)
     break
-
-"""
-import itertools
-
-def xor(s, key):
-    key = key * (len(s) / len(key) + 1)
-    return ''.join(chr(ord(x) ^ ord(y)) for (x,y) in itertools.izip(s, key)) 
-
-if __name__ == "__main__":
-    ret = xor('test','key')
-    print ret
-    print xor(ret, 'key')
-"""
