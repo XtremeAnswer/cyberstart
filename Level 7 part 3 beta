@@ -1,0 +1,50 @@
+#
+# Setup server listening on ('localhost', 10000)
+# receive data then send back XORed with the key
+# attackthehumans
+#
+# If you get an address already in use error then try again in a few
+# moments.
+#
+import socket
+
+def debugMsg(msg):
+  # Use this function if you need any debug messages
+  with open("/tmp/userdebug.log", "a") as myfile:
+    myfile.write(msg + "\n")
+
+def change_to_be_hex(str):
+    return int(str,base=16)
+def xor_two_str(str1,str2):
+    a = change_to_be_hex(str1)
+    b = change_to_be_hex(str2)
+    return hex(a ^ b)
+
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(('localhost', 10000))
+server.listen(10)
+
+
+while True:
+    connection, address = server.accept()
+    data = connection.recv(1024)
+    if len(data) > 0:
+        print(data)
+    connection.send(xor_two_str('data', 'attackthehumans'))
+    if len(data) > 0:
+        print(data)
+    break
+
+"""
+import itertools
+
+def xor(s, key):
+    key = key * (len(s) / len(key) + 1)
+    return ''.join(chr(ord(x) ^ ord(y)) for (x,y) in itertools.izip(s, key)) 
+
+if __name__ == "__main__":
+    ret = xor('test','key')
+    print ret
+    print xor(ret, 'key')
+"""
