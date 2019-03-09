@@ -5,17 +5,31 @@
 #
 
 myfile = '/tmp/destroymoonbase.gif'
-
-x = open(myfile, 'r')
-x = x.read()
-y = []
 alphanumeric_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+y = []
+alphanumeric_list2 = []
+for thing in alphanumeric_list:
+    thing = ord(thing)
+    alphanumeric_list2.append(thing)
 
-for thing in x:
-    for stuff in alphanumeric_list:
-        if thing == stuff:
-            y.append(thing)
+with open(myfile, 'rb') as f:
+   while 1:
+      byte_s = f.read(1)
+      if not byte_s:
+         break
+      byte = byte_s[0]
+      if byte in alphanumeric_list2:
+          y.append(byte)
 print(y)
+
+"""
+for i in range(110014):
+    thing = f.read(1)
+    #print(thing)
+    if thing in alphanumeric_list:
+        y.append(thing)
+        print(y)
 print(''.join(y))
-x.close()
-     
+
+f.close()
+"""
