@@ -3,17 +3,17 @@
 # The flag is hidden in large amount of non alphanumeric characters.
 # The file lives at /tmp/destroymoonbase.gif
 #
-possible_chrs = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
 myfile = '/tmp/destroymoonbase.gif'
 
-with open(myfile, 'r') as file:
-    x = file.read()
+x = open(myfile, 'r')
+x = x.read()
 x = x.lower()
-x = list(x)
 y = []
+alphanumeric_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
 
 for thing in x:
-    for stuff in possible_chrs:
+    for stuff in alphanumeric_list:
         if thing == stuff:
             y.append(thing)
 print(y)
+x.close()
