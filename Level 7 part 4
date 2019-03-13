@@ -3,30 +3,51 @@
 # The flag is hidden in large amount of non alphanumeric characters.
 # The file lives at /tmp/destroymoonbase.gif
 #
-import os
 myfile = '/tmp/destroymoonbase.gif'
-print(os.stat(myfile).st_size)
 alphanumeric_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 y = []
-print('append finished')
+#print('append finished')
+count = 0
+with open(myfile, 'r') as f:
+    new_file = f.read()
+    for thing in new_file:
+        #print(thing)
+        if thing == '#' or '$':
+            count += 1
+    #print(count)
+
 
 with open(myfile, 'rb') as f:
-    print('read finished')
-    k =0
+    #print('read finished')
+    k = 0
     n = 0
-    while k <250:
-        buf = f.read(5000)
+    while k <110013:
+        buf = f.read(1)
+        if n == 1100014:
+            break
+            
         if not buf:
             break
+
         k += 1
         n += len(buf)
+       
+
         for thing in buf:
             c = ord(thing)
-            #print(thing, c, type(thing))
-            if chr(c) in alphanumeric_list:
-                 y.append(chr(c))
-print(y)
-print(n)
+            #print(thing, c, type(thing), type(c))
+            if thing in alphanumeric_list:
+                #print('heyo')
+                y.append(thing)
+                
+            if c != 35:
+                if c != 36:
+                    y.append(thing)
+
+
+#print(y)
+print(''.join(y))
+#print(n)
 
 
 """
