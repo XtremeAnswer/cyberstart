@@ -1,0 +1,40 @@
+#
+# Connect over TCP to the following server 'localhost', 10000
+# Initiate communication with GET to retrieve the encrypted messages.
+# Then return the messages decrypted to the server,
+# taking care to ensure each message is split on to a newline
+#
+
+import socket
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+client.connect(('localhost', 10000))
+client.send('GET')
+response = client.recv(2048)
+#print(response)
+k = 0
+n = 0
+normal = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+normal2 = ''.join(normal)
+new_line = ''
+response2 = []
+for line in response.splitlines():
+    k += 1
+    if k > 1:
+        response2.append(line)
+print(response2)
+
+
+for key in range(len(normal2)):
+    translated = ''
+    for thing in response2:
+        if thing in normal2:
+            num = normal2.find(thing) # get the number of the symbol
+            num = num - key
+            if num < 0:
+                num = num + len(normal2)
+            translated = translated + normal2[num]
+        else:
+            translated = translated + thing
+    print('Key #%s: %s' % (key, translated))
