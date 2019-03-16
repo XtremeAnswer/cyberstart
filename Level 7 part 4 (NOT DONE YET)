@@ -3,8 +3,15 @@
 # The flag is hidden in large amount of non alphanumeric characters.
 # The file lives at /tmp/destroymoonbase.gif
 #
+
+
 myfile = '/tmp/destroymoonbase.gif'
 alphanumeric_list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+alphanumeric_list2 = []
+for thing in alphanumeric_list:
+    xyz = ord(thing)
+    alphanumeric_list2.append(xyz)
+#print(alphanumeric_list2)
 y = []
 #print('append finished')
 count = 0
@@ -14,18 +21,15 @@ with open(myfile, 'r') as f:
         #print(thing)
         if thing == '#' or '$':
             count += 1
-    #print(count)
+    print(count)
 
-
-with open(myfile, 'rb') as f:
+abcd = 0
+with open(myfile, 'w+') as f:
     #print('read finished')
     k = 0
     n = 0
-    while k <110013:
+    while k < 110015:
         buf = f.read(1)
-        if n == 1100014:
-            break
-            
         if not buf:
             break
 
@@ -36,14 +40,15 @@ with open(myfile, 'rb') as f:
         for thing in buf:
             c = ord(thing)
             #print(thing, c, type(thing), type(c))
-            if thing in alphanumeric_list:
-                #print('heyo')
-                y.append(thing)
-                
-            if c != 35:
-                if c != 36:
-                    y.append(thing)
-
+            #print(c)
+            if c in alphanumeric_list2:
+                y.append(c)
+    for thing in y:
+        abcd += 1
+        if abcd == 1:
+            f.write(y)
+        else:
+            f.append(y)
 
 #print(y)
 print(''.join(y))
