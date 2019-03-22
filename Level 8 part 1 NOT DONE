@@ -31,22 +31,22 @@ for i in range(26):
 
 #for thing in letters:
 #    print('%s : %s' % (thing, str(ord(thing))))
-letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+letters2 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 thirdvar = []
 fourthvar = []
 fifthvar = []
 k = 0
 for thing in secondvar:
     k += 1
-    for key in range(len(letters)):
+    for key in range(len(letters2)):
         translated = ''
         for symbol in thing:
-            if symbol in letters:
-                num = letters.find(symbol)
+            if symbol in letters2:
+                num = letters2.find(symbol)
                 num = num - key
                 if num < 0:
-                    num = num + len(letters)
-                translated = translated + letters[num]
+                    num = num + len(letters2)
+                translated = translated + letters2[num]
             else:
                 translated = translated + symbol
         #print('KEY: %s' % (translated))
@@ -63,5 +63,25 @@ print(fourthvar)
 print('')
 print(fifthvar)
 """
+freqnums = [8.12, 1.49, 2.71, 4.32, 12.02, 2.30, 2.03, 5.92, 7.31, 0.10, 0.69, 3.98, 2.61, 6.95, 7.68, 1.82, 0.11, 6.02, 6.28, 9.10, 2.88, 1.11, 2.09, 0.17, 2.11, 0.07]  
+k = 0
+freq_counts = {}
+for thing in letters:
+    freq_counts[thing] = freqnums[k]
+    k += 1
+
+    
+
+def find_counts(combolist):
+    instances = 0
+    tot_chr = 0
+    for sentence in combolist:
+        for character in sentence:
+            tot_chr += 1
+            
+            
+        
+
+
             
         
