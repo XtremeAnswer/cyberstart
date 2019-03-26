@@ -69,17 +69,40 @@ freq_counts = {}
 for thing in letters:
     freq_counts[thing] = freqnums[k]
     k += 1
+print(freq_counts)
 
-    
-
+"""
 def find_counts(combolist):
     instances = 0
     tot_chr = 0
+    ret_list = []
     for sentence in combolist:
+        ret_dict = {}
         for character in sentence:
+            instances = 0
             tot_chr += 1
-            
-            
+            temp = character	
+            for thing in sentence:
+                if temp == thing:
+                    instances += 1
+            div = (instances / float(tot_chr))
+            ret_dict[character] = div
+        ret_list.append(ret_dict)
+    return(ret_list)
+"""
+def find_counts(combolist, possible_chr):
+    for sentence in combolist:
+        ret_dict = {}
+        for character in sentence:
+            if character in possible_chr:
+                ret_dict[character] = ret_dict.get(character, 0) + 1
+                
+                
+                
+    
+#print(thirdvar)
+test = find_counts(thirdvar, letters2)
+print(test)
         
 
 
