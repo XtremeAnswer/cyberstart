@@ -117,6 +117,6 @@ def find_goodness(histograms, english_freq):
   
             
         
-test2 = find_goodness(histograms, freq_counts)
-print(test2)
+#test2 = find_goodness(histograms, freq_counts)
+#print(test2)
 
