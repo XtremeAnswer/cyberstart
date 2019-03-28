@@ -63,65 +63,60 @@ print(fourthvar)
 print('')
 print(fifthvar)
 """
+# English frequency counts
 freqnums = [8.12, 1.49, 2.71, 4.32, 12.02, 2.30, 2.03, 5.92, 7.31, 0.10, 0.69, 3.98, 2.61, 6.95, 7.68, 1.82, 0.11, 6.02, 6.28, 9.10, 2.88, 1.11, 2.09, 0.17, 2.11, 0.07]  
 k = 0
 freq_counts = {}
 for thing in letters:
     freq_counts[thing] = freqnums[k]
     k += 1
-print(freq_counts)
+#print(freq_counts)
 
 
-def find_counts(combolist, possible_chr):
-    instances = 0
+candidate_decryptions = dict()
+for i, sentence in enumerate(thirdvar):
+    candidate_decryptions[i+1] = sentence
+
+
+
+def find_counts(candidate_decryptions, possible_chr):
     tot_chr = 0
-    ret_list = []
-    for sentence in combolist:
+    histograms = {}
+    for key_shift, sentence in candidate_decryptions.items():
         ret_dict = {}
-        for character in sentence:
-            instances = 0
-            tot_chr += 1
-            temp = character
-            if character in possible_chr:
-                for thing in sentence:
-                    if temp == thing:
-                        instances += 1
-                div = (instances / float(tot_chr))
-                ret_dict[character] = div
-            ret_list.append(ret_dict)
-    return(ret_list)
-"""
-def find_counts(combolist, possible_chr):
-    ret_list = []
-    for sentence in combolist:
-        ret_dict = {}
+        for thing in possible_chr:
+            ret_dict[thing] = 0.0
+        tot_chr = 0
         for character in sentence:
             if character in possible_chr:
-                ret_dict[character] = ret_dict.get(character, 0) + 1
-        t = 0
-        for thing in ret_dict:
-            t += 1
-        for key, value in ret_dict.items():
-            ret_dict[key] = ret_dict[key] / t
-        ret_list.append(ret_dict)
-    return(ret_list)
-"""
+                ret_dict[character] = ret_dict.get(character, 0) + 1.0
+                tot_chr += 1
+        for thing in possible_chr:
+            ret_dict[thing] = ret_dict[thing] / tot_chr
+        histograms[key_shift] = ret_dict
+    return(histograms)
+
                 
     
 #print(thirdvar)
-test = find_counts(thirdvar, list(letters2))
-#for thing in test:
-#    print(thing['Z'])
-print(test)
+histograms = find_counts(candidate_decryptions, list(letters2))
+#for k, v in histograms.items():
+#    print(k, v)
 
-def find_goodness(list_of_keys, english_freq):
-    for possible_key in list_of_keys:
+def find_goodness(histograms, english_freq):
+    fitness = {}
+    #print(len(list_of_key_freq))
+    for key_shift, key_freq in histograms.items():
         s = 0
-        for c in english_freq.keys():
-            s += pow((c - possible_key.get(letter, 0)), 2)
-    print(s)
-test2 = find_goodness(test, freqnums)
-print(test2)
-
+        for character, value in english_freq.items():
+            s += pow((value - key_freq.get(character, 0)), 2)
+        s = sqrt(s)
+        #print(s)
+        fitness[key_shift] = s    
+    return(fitness)
+  
             
         
+test2 = find_goodness(histograms, freq_counts)
+print(test2)
+
