@@ -4,7 +4,7 @@
 # Then return the messages decrypted to the server,
 # taking care to ensure each message is split on to a newline
 #
-
+from math import sqrt, pow
 import socket
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(('localhost', 10000))
@@ -71,8 +71,8 @@ for thing in letters:
     k += 1
 print(freq_counts)
 
-"""
-def find_counts(combolist):
+
+def find_counts(combolist, possible_chr):
     instances = 0
     tot_chr = 0
     ret_list = []
@@ -81,30 +81,47 @@ def find_counts(combolist):
         for character in sentence:
             instances = 0
             tot_chr += 1
-            temp = character	
-            for thing in sentence:
-                if temp == thing:
-                    instances += 1
-            div = (instances / float(tot_chr))
-            ret_dict[character] = div
-        ret_list.append(ret_dict)
+            temp = character
+            if character in possible_chr:
+                for thing in sentence:
+                    if temp == thing:
+                        instances += 1
+                div = (instances / float(tot_chr))
+                ret_dict[character] = div
+            ret_list.append(ret_dict)
     return(ret_list)
 """
 def find_counts(combolist, possible_chr):
+    ret_list = []
     for sentence in combolist:
         ret_dict = {}
         for character in sentence:
             if character in possible_chr:
                 ret_dict[character] = ret_dict.get(character, 0) + 1
-                
-                
+        t = 0
+        for thing in ret_dict:
+            t += 1
+        for key, value in ret_dict.items():
+            ret_dict[key] = ret_dict[key] / t
+        ret_list.append(ret_dict)
+    return(ret_list)
+"""
                 
     
 #print(thirdvar)
-test = find_counts(thirdvar, letters2)
+test = find_counts(thirdvar, list(letters2))
+#for thing in test:
+#    print(thing['Z'])
 print(test)
-        
 
+def find_goodness(list_of_keys, english_freq):
+    for possible_key in list_of_keys:
+        s = 0
+        for c in english_freq.keys():
+            s += pow((c - possible_key.get(letter, 0)), 2)
+    print(s)
+test2 = find_goodness(test, freqnums)
+print(test2)
 
             
         
