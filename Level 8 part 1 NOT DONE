@@ -9,7 +9,6 @@ import socket
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(('localhost', 10000))
 client.send('GET')
-letters = []
 x = client.recv(2048)
 #print(x)
 secondvar = []
@@ -23,63 +22,31 @@ for thing in x:
     if y > 1:
         secondvar.append(thing)
 #print(secondvar)
-#print(ord('A'))
-#print(ord('Z'))
 
-for i in range(26):
-    letters.append(str(chr(65 + i)))
-
-#for thing in letters:
-#    print('%s : %s' % (thing, str(ord(thing))))
-letters2 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-thirdvar = []
-fourthvar = []
-fifthvar = []
-k = 0
-for thing in secondvar:
-    k += 1
-    for key in range(len(letters2)):
+# generate candidate decrypted sentences
+def break_down_ciphertext(ciphertext):
+    letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    candidate_decryptions = dict()
+    for key in range(len(letters)):
         translated = ''
-        for symbol in thing:
-            if symbol in letters2:
-                num = letters2.find(symbol)
+        for symbol in ciphertext:
+            if symbol in letters:
+                num = letters.find(symbol)
                 num = num - key
                 if num < 0:
-                    num = num + len(letters2)
-                translated = translated + letters2[num]
+                    num = num + len(letters)
+                translated = translated + letters[num]
             else:
                 translated = translated + symbol
-        #print('KEY: %s' % (translated))
-        if k == 1:
-            thirdvar.append(translated)
-        elif k == 2:
-            fourthvar.append(translated)
-        elif k == 3:
-            fifthvar.append(translated)
-"""
-print(thirdvar)
-print('')
-print(fourthvar)
-print('')
-print(fifthvar)
-"""
-# English frequency counts
-freqnums = [8.12, 1.49, 2.71, 4.32, 12.02, 2.30, 2.03, 5.92, 7.31, 0.10, 0.69, 3.98, 2.61, 6.95, 7.68, 1.82, 0.11, 6.02, 6.28, 9.10, 2.88, 1.11, 2.09, 0.17, 2.11, 0.07]  
-k = 0
-freq_counts = {}
-for thing in letters:
-    freq_counts[thing] = freqnums[k]
-    k += 1
-#print(freq_counts)
+        candidate_decryptions[key] = translated
+    return(candidate_decryptions)
 
+#test0 = break_down_ciphertext(secondvar[0])
+#print(test0)
 
-candidate_decryptions = dict()
-for i, sentence in enumerate(thirdvar):
-    candidate_decryptions[i+1] = sentence
-
-
-
-def find_counts(candidate_decryptions, possible_chr):
+# compute frequencies for candidate decryptions
+def find_counts(candidate_decryptions):
+    possible_chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' #same as letters
     tot_chr = 0
     histograms = {}
     for key_shift, sentence in candidate_decryptions.items():
@@ -96,27 +63,64 @@ def find_counts(candidate_decryptions, possible_chr):
         histograms[key_shift] = ret_dict
     return(histograms)
 
-                
-    
+  
 #print(thirdvar)
-histograms = find_counts(candidate_decryptions, list(letters2))
-#for k, v in histograms.items():
-#    print(k, v)
+#histograms = find_counts(candidate_decryptions, list(letters))
+#print(histograms)
 
-def find_goodness(histograms, english_freq):
+# find the goodness match between the English histogram and 
+# the candidate decryption histograms
+def find_goodness(histograms):
+    letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    freqnums = [8.12, 1.49, 2.71, 4.32, 12.02, 2.30, 2.03, 5.92, 7.31, 0.10, 0.69, 3.98, 2.61, 6.95, 7.68, 1.82, 0.11, 6.02, 6.28, 9.10, 2.88, 1.11, 2.09, 0.17, 2.11, 0.07]  
+    k = 0
+    freq_counts = {}
+    for thing in letters:
+        freq_counts[thing] = freqnums[k]
+        k += 1
+
     fitness = {}
     #print(len(list_of_key_freq))
     for key_shift, key_freq in histograms.items():
         s = 0
-        for character, value in english_freq.items():
+        for character, value in freq_counts.items():
             s += pow((value - key_freq.get(character, 0)), 2)
         s = sqrt(s)
         #print(s)
         fitness[key_shift] = s    
     return(fitness)
-  
-            
-        
-#test2 = find_goodness(histograms, freq_counts)
+
+#returns dict where key = shift num and value = difference
+# shift 26 means shift 0, and that comes first on the vars storing possible shifts
+
+#test2 = find_goodness(histograms)
 #print(test2)
 
+# find best goodness match of decryption histograms to English
+def find_best_goodness(fitness, candidate_decryptions):
+    best_key = None
+    for shift, difference in fitness.items():
+        if best_key is None:
+            temp = difference
+            best_key = shift
+        elif difference < temp:
+            temp = difference
+            best_key = shift
+    return (best_key, temp, candidate_decryptions[best_key])
+#test3 = finish_decryption(test2, thirdvar)
+#print(test3)
+
+def fully_decrypt_caesar(ciphertext):
+    candidate_decryptions = break_down_ciphertext(ciphertext)
+    histograms = find_counts(candidate_decryptions)
+    fitness = find_goodness(histograms)
+    answer = find_best_goodness(fitness, candidate_decryptions)
+    return(answer)
+
+for thing in secondvar:
+    print(fully_decrypt_caesar(thing))
+    
+        
+        
+    
+    
