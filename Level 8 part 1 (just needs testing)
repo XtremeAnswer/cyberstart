@@ -118,11 +118,13 @@ def fully_decrypt_caesar(ciphertext):
     answer = find_best_goodness(fitness, candidate_decryptions)
     return(answer)
 
-return_str = ''
-for thing in secondvar:
+for i, thing in enumerate(secondvar):
     print(fully_decrypt_caesar(thing))
     thing = fully_decrypt_caesar(thing)
-    return_str = ((' %s \n %s') % (return_str, thing))
+    if i == 0:
+        return_str = thing
+    else:
+        return_str = (('%s\n%s') % (return_str, thing))
 client.send(return_str)
 more_data = client.recv(2048)
 print(more_data)
