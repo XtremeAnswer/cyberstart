@@ -106,7 +106,8 @@ def find_best_goodness(fitness, candidate_decryptions):
         elif difference < temp:
             temp = difference
             best_key = shift
-    return (best_key, temp, candidate_decryptions[best_key])
+    #return (best_key, temp, candidate_decryptions[best_key])
+    return(candidate_decryptions[best_key])
 #test3 = finish_decryption(test2, thirdvar)
 #print(test3)
 
@@ -120,8 +121,9 @@ def fully_decrypt_caesar(ciphertext):
 return_str = ''
 for thing in secondvar:
     print(fully_decrypt_caesar(thing))
-    return_string = ((' %s /n %s') % (return_string, thing))
-client.send(return_string)
+    thing = fully_decrypt_caesar(thing)
+    return_str = ((' %s \n %s') % (return_str, thing))
+client.send(return_str)
 more_data = client.recv(2048)
 print(more_data)
     
