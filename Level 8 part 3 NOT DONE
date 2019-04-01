@@ -1,0 +1,21 @@
+#
+# There is a directory traversal vulnerability in the
+# following page http://127.0.0.1:8082/humantechconfig?file=human.conf
+# Write a script which will attempt various levels of directory
+# traversal to find the right amount that will give access
+# to the root directory. Inside will be a human.conf with the flag.
+#
+# Note: The script can timeout if this occurs try narrowing
+# down your search
+url = 'http://127.0.0.1:8082/humantechconfig?file=human.conf'
+import urllib, urllib2, os
+
+page = urllib2.urlopen(url).read()
+#print(page)
+
+rootDir = '.'
+for dirName, subdirList, fileList in os.walk(rootDir, topdown=False):
+    print('Found directory: %s' % dirName)
+    for fname in fileList:
+        print('\t%s' % fname)
+        
