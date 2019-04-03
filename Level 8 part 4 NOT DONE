@@ -26,17 +26,19 @@ print('')
 lines = []
 words = []
 for thing in paragraphs:
-    print(thing)
+    #print(thing)
+    None
 
 for thing in paragraphs:
-    thing = thing.split()
+    thing = thing.splitlines()
     for line in thing:
         lines.append(thing)
         
-print(lines)
+#print(lines)
 
 print('')
 for word in lines:
     words.append(word)
-print(words)
-
+#print(words)
+#word is a paragraph, holds lines, which hold characters
+print(words[1])
