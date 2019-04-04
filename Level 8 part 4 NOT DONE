@@ -16,7 +16,8 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(('localhost', 10000))
 client.send('hey this should work right?')
 data = client.recv(2048)
-#print(data)
+print(data)
+# data is corresponding paragraph, line, and word number
 key_file = open('backdoor.txt', 'r').read()
 #print(key_file)
 print(type(key_file))
@@ -24,7 +25,7 @@ paragraphs = key_file.split('\n\n')
 #print(paragraphs)
 print('')
 lines = []
-words = []
+split_keys = []
 for thing in paragraphs:
     #print(thing)
     None
@@ -35,10 +36,24 @@ for thing in paragraphs:
         lines.append(thing)
         
 #print(lines)
-
-print('')
+character_list = 'abcdefghijklmnopqrstuvwxyz'
+words = []
 for word in lines:
-    words.append(word)
-#print(words)
-#word is a paragraph, holds lines, which hold characters
-print(words[1])
+    split_keys.append(word)
+#print(split_keys)
+# split_keys holds paragraphs, which in turn hold lines, which hold characters
+for thing in split_keys:
+    for line in thing:
+        line = ''.join(line)
+        #print(line)
+        #print('')
+        for word in line.split():
+            tmp = list(word)
+            for character in tmp:
+                if character.lower() not in character_list:
+                    tmp.remove(character)
+            
+            words.append(''.join(tmp))
+print(words)
+# holds all the words stripped of punctuation
+        
