@@ -54,6 +54,7 @@ for thing in split_keys:
                     tmp.remove(character)
             
             words.append(''.join(tmp))
-print(words)
+#print(words)
 # holds all the words stripped of punctuation
-        
+for thing in data:
+    print(thing)
