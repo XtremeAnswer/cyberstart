@@ -42,9 +42,12 @@ for word in lines:
     split_keys.append(word)
 #print(split_keys)
 # split_keys holds paragraphs, which in turn hold lines, which hold characters
-for thing in split_keys:
-    for line in thing:
-        line = ''.join(line)
+for paragraph in split_keys:
+    print(paragraph)
+    print('')
+# for some reason split keys has each paragraph twice
+"""
+line = ''.join(line)
         #print(line)
         #print('')
         for word in line.split():
@@ -54,9 +57,19 @@ for thing in split_keys:
                     tmp.remove(character)
             
             words.append(''.join(tmp))
+"""
+# code for changing characters into words ^ (or something like that)
+        
 #print(words)
-# holds all the words stripped of punctuation
-# split keys holds paragraphs, lines and characters
-# the characters need to be replaced with words instead, maybe using a dictionary
 
-# the 'data' variable holds the numbers for paragraph, line and words
+    
+
+# 'words' holds all the words stripped of punctuation
+# but not capital letters
+# split keys holds paragraphs, lines and characters
+# the characters need to be replaced with words instead
+# a dictionary could be used to give each pararaph/line/word a number
+# making it easier to match the specific request
+
+# the 'data' variable holds the required numbers 
+# for paragraph, line in paragrap, and word in line
