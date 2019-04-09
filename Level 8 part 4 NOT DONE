@@ -56,5 +56,7 @@ for thing in split_keys:
             words.append(''.join(tmp))
 #print(words)
 # holds all the words stripped of punctuation
-for thing in data:
-    print(thing)
+# split keys holds paragraphs, lines and characters
+# the characters need to be replaced with words instead, maybe using a dictionary
+
+# the 'data' variable holds the numbers for paragraph, line and words
