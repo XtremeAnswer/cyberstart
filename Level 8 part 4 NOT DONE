@@ -43,18 +43,20 @@ for paragraph in lines:
 #print(split_keys)
 # split_keys holds paragraphs, which in turn hold lines, which hold characters
 split_key_dict = {}
-lineList_of_dict = []
-wordList_of_dict = []
+line_wordlist = []
 for i, paragraph in enumerate(split_keys):
+    line_dict = {}
+    split_key_dict[i+1] = line_dict
     for i2, line in enumerate(paragraph):
-        line_dict = {}
+        line_wordlist = []
+        word_dict = {}
         
         line = ''.join(line)
-        print('')
-        print(line)
-        print('')
+        #print('')
+        #print(line)
+        #print('')
         for i3, word in enumerate(line.split()):
-            word_dict = {}
+            
             
             #print(word) 
             # this loops turns the characters into words without punctuation
@@ -62,13 +64,22 @@ for i, paragraph in enumerate(split_keys):
             for character in tmp:
                 if character not in character_list:
                     tmp.remove(character)
-            print(''.join(tmp))
+            tmp = ''.join(tmp)
+            #print(tmp)
+            #print('')
+            line_wordlist.append(tmp)
+            for i4, thing in enumerate(line_wordlist):
+                word_dict[i4+1] = thing
+        #print(word_dict)
+        #print('')
+        line_dict[i2+1] = word_dict
+       # print(line_dict)
+
             
             
                     
-        
-    
-print(split_key_dict)
+#print('')
+#print(split_key_dict)
     
     
 """
@@ -83,7 +94,7 @@ line = ''.join(line)
             
             words.append(''.join(tmp))
 """
-# code for changing characters into words ^ (or something like that)
+# code for changing characters in a line into words split by spaces ^
         
 #print(words)
 
@@ -95,6 +106,46 @@ line = ''.join(line)
 # the characters need to be replaced with words instead
 # a dictionary could be used to give each pararaph/line/word a number
 # making it easier to match the specific request
+# split_key_dict holds each of the seperate dictionaries used for 
+# assigned each paragraph/line/word a number, starting from 1
 
 # the 'data' variable holds the required numbers 
-# for paragraph, line in paragrap, and word in line
+# for paragraph, line in paragraph, and word in line
+for para_num, paragraph in split_key_dict.items():
+    for line_num, line in paragraph.items():
+        for word_num, word in line.items():
+            None
+nums = []
+number_list = '0123456789'
+for line in data.splitlines():
+    print(line)
+    line = ''.join(line)
+        #print(line)
+        #print('')
+    for word in line.split():
+        tmp = list(word)
+        for character in tmp:
+            if character.lower() not in number_list:
+                tmp.remove(character)
+            
+        nums.append(''.join(tmp))
+print(nums)
+
+data_dict = {}
+tmp = []
+i2 = 0
+for thing in nums:
+    
+    if i2 < 3:
+        tmp.append(thing)
+    elif i2 == 3:
+        i3 += 1
+        data_dict[i3] = tmp
+        tmp = []
+    i2 += 1
+print(tmp)
+    
+print(data_dict)
+
+        
+    
