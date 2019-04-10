@@ -16,7 +16,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(('localhost', 10000))
 client.send('hey this should work right?')
 data = client.recv(2048)
-print(data)
+#print(data)
 # data is corresponding paragraph, line, and word number
 key_file = open('backdoor.txt', 'r').read()
 #print(key_file)
@@ -32,20 +32,45 @@ for thing in paragraphs:
 
 for thing in paragraphs:
     thing = thing.splitlines()
-    for line in thing:
-        lines.append(thing)
+    lines.append(thing)
+    #print(thing)
         
 #print(lines)
 character_list = 'abcdefghijklmnopqrstuvwxyz'
 words = []
-for word in lines:
-    split_keys.append(word)
+for paragraph in lines:
+    split_keys.append(paragraph)
 #print(split_keys)
 # split_keys holds paragraphs, which in turn hold lines, which hold characters
-for paragraph in split_keys:
-    print(paragraph)
-    print('')
-# for some reason split keys has each paragraph twice
+split_key_dict = {}
+lineList_of_dict = []
+wordList_of_dict = []
+for i, paragraph in enumerate(split_keys):
+    for i2, line in enumerate(paragraph):
+        line_dict = {}
+        
+        line = ''.join(line)
+        print('')
+        print(line)
+        print('')
+        for i3, word in enumerate(line.split()):
+            word_dict = {}
+            
+            #print(word) 
+            # this loops turns the characters into words without punctuation
+            tmp = list(word.lower())
+            for character in tmp:
+                if character not in character_list:
+                    tmp.remove(character)
+            print(''.join(tmp))
+            
+            
+                    
+        
+    
+print(split_key_dict)
+    
+    
 """
 line = ''.join(line)
         #print(line)
@@ -65,7 +90,7 @@ line = ''.join(line)
     
 
 # 'words' holds all the words stripped of punctuation
-# but not capital letters
+# and all in lowercase
 # split keys holds paragraphs, lines and characters
 # the characters need to be replaced with words instead
 # a dictionary could be used to give each pararaph/line/word a number
