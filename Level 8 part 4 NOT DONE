@@ -16,7 +16,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(('localhost', 10000))
 client.send('hey this should work right?')
 data = client.recv(2048)
-#print(data)
+print(data)
 # data is corresponding paragraph, line, and word number
 key_file = open('backdoor.txt', 'r').read()
 #print(key_file)
@@ -59,7 +59,7 @@ for i, paragraph in enumerate(split_keys):
             
             
             #print(word) 
-            # this loops turns the characters into words without punctuation
+            # this loop turns the characters into words without punctuation
             tmp = list(word.lower())
             for character in tmp:
                 if character not in character_list:
@@ -118,34 +118,59 @@ for para_num, paragraph in split_key_dict.items():
 nums = []
 number_list = '0123456789'
 for line in data.splitlines():
-    print(line)
+    #print(line)
     line = ''.join(line)
         #print(line)
         #print('')
     for word in line.split():
         tmp = list(word)
         for character in tmp:
-            if character.lower() not in number_list:
+            if character not in number_list:
                 tmp.remove(character)
             
         nums.append(''.join(tmp))
-print(nums)
+#print(nums)
+#print('')
 
-data_dict = {}
+data_list = []
 tmp = []
-i2 = 0
-for thing in nums:
-    
-    if i2 < 3:
-        tmp.append(thing)
-    elif i2 == 3:
-        i3 += 1
-        data_dict[i3] = tmp
+for i, thing in enumerate(nums):
+    tmp.append(thing)
+    if i == 2:
+        data_list.append(tmp)
         tmp = []
-    i2 += 1
-print(tmp)
-    
-print(data_dict)
+    elif i == 5:
+        data_list.append(tmp)
+        tmp = []
+    elif i == 8:
+        data_list.append(tmp)
+        tmp = []
+    elif i == 12:
+        data_list.append(tmp)
+        tmp = []
+    elif i == 15:
+        data_list.append(tmp)
+        tmp = []
+    elif i == 18:
+        data_list.append(tmp)
+        tmp = []
 
-        
+
+#print('')
+#print(data_list)
+
+# data list holds a list of the sets of 
+# paragraph/line/word number required
+print('')
+#print(split_key_dict)
+"""
+for key, value in split_key_dict.items():
+    print(key, value)
+    print('')
+"""
+
+for triplet in data_list:
+    print(split_key_dict[int(triplet[0])][int(triplet[1])][int(triplet[2])])
+    
+    
     
