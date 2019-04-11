@@ -36,7 +36,7 @@ for thing in paragraphs:
     #print(thing)
         
 #print(lines)
-character_list = 'abcdefghijklmnopqrstuvwxyz'
+character_list = "abcdefghijklmnopqrstuvwxyz"
 words = []
 for paragraph in lines:
     split_keys.append(paragraph)
@@ -61,10 +61,12 @@ for i, paragraph in enumerate(split_keys):
             #print(word) 
             # this loop turns the characters into words without punctuation
             tmp = list(word.lower())
+            #print(tmp)
             for character in tmp:
                 if character not in character_list:
                     tmp.remove(character)
             tmp = ''.join(tmp)
+            #print(tmp)
             #print(tmp)
             #print('')
             line_wordlist.append(tmp)
@@ -161,6 +163,7 @@ for i, thing in enumerate(nums):
 
 # data list holds a list of the sets of 
 # paragraph/line/word number required
+
 print('')
 #print(split_key_dict)
 """
@@ -168,9 +171,18 @@ for key, value in split_key_dict.items():
     print(key, value)
     print('')
 """
-
+send_back_list = []
 for triplet in data_list:
     print(split_key_dict[int(triplet[0])][int(triplet[1])][int(triplet[2])])
+    send_back_list.append(split_key_dict[int(triplet[0])][int(triplet[1])][int(triplet[2])])
+for i, thing in enumerate(send_back_list):
+    if i < 1:
+        send_back_str = thing
+    else:
+        send_back_str = send_back_str + '\n' + thing
+client.send(send_back_str)
+new_data = client.recv(2048)
+print(new_data)
     
     
     
