@@ -10,7 +10,9 @@
 # The words should have punctuation stripped from them.
 # And the words should be separated by newline characters (\n)
 #
-import socket
+import socket, string
+
+#print(string.punctuation)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(('localhost', 10000))
@@ -20,7 +22,7 @@ print(data)
 # data is corresponding paragraph, line, and word number
 key_file = open('backdoor.txt', 'r').read()
 #print(key_file)
-print(type(key_file))
+#print(type(key_file))
 paragraphs = key_file.split('\n\n')
 #print(paragraphs)
 print('')
@@ -56,20 +58,23 @@ for i, paragraph in enumerate(split_keys):
         #print(line)
         #print('')
         for i3, word in enumerate(line.split()):
-            
-            
             #print(word) 
             # this loop turns the characters into words without punctuation
-            tmp = list(word.lower())
+            #tmp = list(word)
             #print(tmp)
+            """
             for character in tmp:
-                if character not in character_list:
+                if character.lower() not in character_list:
                     tmp.remove(character)
-            tmp = ''.join(tmp)
-            #print(tmp)
+                    #print(character)
+                    #print('')
+            """
+            #tmp = ''.join(tmp)
             #print(tmp)
             #print('')
-            line_wordlist.append(tmp)
+            word = ''.join(word).translate(None, string.punctuation)
+            #print(word)
+            line_wordlist.append(word.lower())
             for i4, thing in enumerate(line_wordlist):
                 word_dict[i4+1] = thing
         #print(word_dict)
@@ -83,19 +88,7 @@ for i, paragraph in enumerate(split_keys):
 #print('')
 #print(split_key_dict)
     
-    
-"""
-line = ''.join(line)
-        #print(line)
-        #print('')
-        for word in line.split():
-            tmp = list(word)
-            for character in tmp:
-                if character.lower() not in character_list:
-                    tmp.remove(character)
-            
-            words.append(''.join(tmp))
-"""
+
 # code for changing characters in a line into words split by spaces ^
         
 #print(words)
@@ -130,13 +123,16 @@ for line in data.splitlines():
             if character not in number_list:
                 tmp.remove(character)
             
-        nums.append(''.join(tmp))
+        tmp = (''.join(tmp))
+        nums.append(int(tmp))
+        
 #print(nums)
 #print('')
 
 data_list = []
 tmp = []
 for i, thing in enumerate(nums):
+    thing = int(thing)
     tmp.append(thing)
     if i == 2:
         data_list.append(tmp)
@@ -166,23 +162,22 @@ for i, thing in enumerate(nums):
 
 print('')
 #print(split_key_dict)
-"""
-for key, value in split_key_dict.items():
-    print(key, value)
-    print('')
-"""
+
 send_back_list = []
 for triplet in data_list:
-    print(split_key_dict[int(triplet[0])][int(triplet[1])][int(triplet[2])])
-    send_back_list.append(split_key_dict[int(triplet[0])][int(triplet[1])][int(triplet[2])])
+    print(split_key_dict[triplet[0]][triplet[1]][triplet[2]])
+    send_back_list.append(split_key_dict[triplet[0]][triplet[1]][triplet[2]])
 for i, thing in enumerate(send_back_list):
     if i < 1:
         send_back_str = thing
+    elif i > 5:
+        send_back_str = thing
     else:
         send_back_str = send_back_str + '\n' + thing
+#print('')
+#print(send_back_str)
 client.send(send_back_str)
 new_data = client.recv(2048)
 print(new_data)
-    
-    
-    
+
+
