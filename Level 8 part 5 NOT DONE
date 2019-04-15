@@ -7,5 +7,37 @@
 # once you see the flag.
 #
 import urllib, urllib2
+from time import clock
 
-url = 'http://127.0.0.1:8082/selfdestruct'
+def check_matches():
+    url = 'http://127.0.0.1:8082/selfdestruct'
+    f = urllib.urlopen(url)
+    myfile = f.read()
+    #print(myfile)
+
+    numList = '0123456789'
+    possible_matches = []
+
+    for thing in myfile.split():
+        for num in numList:
+             if num in thing and thing not in possible_matches:
+                possible_matches.append(thing)
+    if possible_matches[0] == possible_matches[1]:
+        return(True)
+    else:
+        return(False)
+      
+
+
+n = 0
+while n == 0:
+    x = check_matches()
+    if x == True:
+        n = 1
+        url = 'http://127.0.0.1:8082/selfdestruct'
+        f = urllib.urlopen(url)
+        myfile = f.read()
+        print(myfile)
+    print(None)
+
+            
