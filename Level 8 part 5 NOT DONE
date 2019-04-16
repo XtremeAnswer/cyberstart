@@ -17,27 +17,47 @@ def check_matches():
 
     numList = '0123456789'
     possible_matches = []
-
     for thing in myfile.split():
         for num in numList:
              if num in thing and thing not in possible_matches:
                 possible_matches.append(thing)
+    print(possible_matches)
     if possible_matches[0] == possible_matches[1]:
-        return(True)
+        return(myfile)
     else:
         return(False)
-      
+"""
+url = 'http://127.0.0.1:8082/selfdestruct'
+f = urllib.urlopen(url)
+myfile = f.read()
+#print(myfile)
 
+numList = '0123456789'
+possible_matches = []
+for thing in myfile.split():
+    for num in numList:
+        if num in thing and thing not in possible_matches:
+            possible_matches.append(thing)
+print(possible_matches)
+
+
+if possible_matches[0] == possible_matches[1]:
+    print(True)
+else:
+    print(False)
+      
+"""
 
 n = 0
+count = 0
 while n == 0:
+    count += 1
     x = check_matches()
-    if x == True:
+    if x != False:
+        print(x)
         n = 1
-        url = 'http://127.0.0.1:8082/selfdestruct'
-        f = urllib.urlopen(url)
-        myfile = f.read()
-        print(myfile)
-    print(None)
-
-            
+        break
+    elif count == 500:
+        break
+    
+       
